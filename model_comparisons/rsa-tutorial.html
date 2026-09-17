@@ -129,7 +129,7 @@ code { font-family: var(--mono); font-size: 0.85em; background: var(--off); padd
 .pv .v { text-align: center; padding: 4px 0; border-radius: 3px; color: #0d0d0b; }
 .stat { font-family: var(--mono); font-size: 1.7rem; font-weight: 500; color: var(--navy); line-height: 1.1; margin: 4px 0 2px; }
 .stat-lbl { font-family: var(--sans); font-size: 0.72rem; color: var(--tertiary); margin-bottom: 10px; }
-svg.scene { width: 100%; max-width: 300px; aspect-ratio: 1; background: var(--off); border: 1px solid var(--border); border-radius: 6px; touch-action: none; display: block; }
+svg.scene { width: 100%; max-width: 300px; aspect-ratio: 1; background: var(--off); border: 1px solid var(--border); border-radius: 6px; touch-action: none; display: block; user-select: none; -webkit-user-select: none; -webkit-tap-highlight-color: transparent; }
 svg.scene .grid { stroke: rgba(0,0,0,0.05); stroke-width: 1; }
 svg.scene .axl { fill: var(--tertiary); font-family: var(--mono); font-size: 9px; }
 svg.scene .stim { cursor: grab; }
@@ -710,8 +710,8 @@ function draw3d(){
   $("st3d").textContent = pick ? `${STIM[pick[0]].n} to ${STIM[pick[1]].n}: ${fmt(D[pick[0]][pick[1]]/mx,2)}` : "Drag to rotate";
 }
 (function(){ let drag=null; svg3.style.cursor="grab";
-  svg3.addEventListener("pointerdown",ev=>{ drag=[ev.clientX,ev.clientY]; svg3.setPointerCapture&&svg3.setPointerCapture(ev.pointerId); });
-  svg3.addEventListener("pointermove",ev=>{ if(!drag) return; view.yaw+=(ev.clientX-drag[0])*0.01; view.pitch=Math.max(-1.4,Math.min(1.4,view.pitch+(ev.clientY-drag[1])*0.01)); drag=[ev.clientX,ev.clientY]; draw3d(); });
+  svg3.addEventListener("pointerdown",ev=>{ drag=[ev.clientX,ev.clientY]; svg3.setPointerCapture&&svg3.setPointerCapture(ev.pointerId); ev.preventDefault(); });
+  svg3.addEventListener("pointermove",ev=>{ if(!drag) return; view.yaw-=(ev.clientX-drag[0])*0.01; view.pitch=Math.max(-1.4,Math.min(1.4,view.pitch+(ev.clientY-drag[1])*0.01)); drag=[ev.clientX,ev.clientY]; draw3d(); });
   svg3.addEventListener("pointerup",()=>{ drag=null; }); svg3.addEventListener("pointercancel",()=>{ drag=null; });
 })();
 $("lines3d").addEventListener("change",draw3d);
